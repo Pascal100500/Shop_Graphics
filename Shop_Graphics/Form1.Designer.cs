@@ -45,6 +45,13 @@
             this.btnCancelChanges = new System.Windows.Forms.Button();
             this.textBoxSelectedProduct = new System.Windows.Forms.TextBox();
             this.labelProductSelect = new System.Windows.Forms.Label();
+            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.labelDateFrom = new System.Windows.Forms.Label();
+            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
+            this.labelDateTo = new System.Windows.Forms.Label();
+            this.labelDateRange = new System.Windows.Forms.Label();
+            this.btnShowOrdersByDate = new System.Windows.Forms.Button();
+            this.labelBuyers = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProduct)).BeginInit();
             this.SuspendLayout();
@@ -81,7 +88,7 @@
             // pictureBoxProduct
             // 
             this.pictureBoxProduct.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxProduct.Location = new System.Drawing.Point(480, 142);
+            this.pictureBoxProduct.Location = new System.Drawing.Point(681, 133);
             this.pictureBoxProduct.Name = "pictureBoxProduct";
             this.pictureBoxProduct.Size = new System.Drawing.Size(231, 206);
             this.pictureBoxProduct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -91,7 +98,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(497, 117);
+            this.label3.Location = new System.Drawing.Point(714, 105);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(179, 13);
             this.label3.TabIndex = 5;
@@ -99,7 +106,7 @@
             // 
             // btnAddProductImage
             // 
-            this.btnAddProductImage.Location = new System.Drawing.Point(480, 373);
+            this.btnAddProductImage.Location = new System.Drawing.Point(643, 354);
             this.btnAddProductImage.Name = "btnAddProductImage";
             this.btnAddProductImage.Size = new System.Drawing.Size(75, 23);
             this.btnAddProductImage.TabIndex = 6;
@@ -148,7 +155,7 @@
             // 
             // btnDeleteImage
             // 
-            this.btnDeleteImage.Location = new System.Drawing.Point(605, 373);
+            this.btnDeleteImage.Location = new System.Drawing.Point(804, 354);
             this.btnDeleteImage.Name = "btnDeleteImage";
             this.btnDeleteImage.Size = new System.Drawing.Size(139, 23);
             this.btnDeleteImage.TabIndex = 11;
@@ -195,7 +202,7 @@
             // 
             // textBoxSelectedProduct
             // 
-            this.textBoxSelectedProduct.Location = new System.Drawing.Point(585, 418);
+            this.textBoxSelectedProduct.Location = new System.Drawing.Point(753, 403);
             this.textBoxSelectedProduct.Name = "textBoxSelectedProduct";
             this.textBoxSelectedProduct.Size = new System.Drawing.Size(159, 20);
             this.textBoxSelectedProduct.TabIndex = 17;
@@ -203,17 +210,84 @@
             // labelProductSelect
             // 
             this.labelProductSelect.AutoSize = true;
-            this.labelProductSelect.Location = new System.Drawing.Point(477, 421);
+            this.labelProductSelect.Location = new System.Drawing.Point(629, 406);
             this.labelProductSelect.Name = "labelProductSelect";
             this.labelProductSelect.Size = new System.Drawing.Size(101, 13);
             this.labelProductSelect.TabIndex = 18;
             this.labelProductSelect.Text = "Выбранный товар:";
             // 
+            // dateTimePickerFrom
+            // 
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(460, 193);
+            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePickerFrom.TabIndex = 19;
+            // 
+            // labelDateFrom
+            // 
+            this.labelDateFrom.AutoSize = true;
+            this.labelDateFrom.Location = new System.Drawing.Point(365, 193);
+            this.labelDateFrom.Name = "labelDateFrom";
+            this.labelDateFrom.Size = new System.Drawing.Size(73, 13);
+            this.labelDateFrom.TabIndex = 20;
+            this.labelDateFrom.Text = "Дата старта:";
+            // 
+            // dateTimePickerTo
+            // 
+            this.dateTimePickerTo.Location = new System.Drawing.Point(460, 238);
+            this.dateTimePickerTo.Name = "dateTimePickerTo";
+            this.dateTimePickerTo.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePickerTo.TabIndex = 21;
+            // 
+            // labelDateTo
+            // 
+            this.labelDateTo.AutoSize = true;
+            this.labelDateTo.Location = new System.Drawing.Point(365, 244);
+            this.labelDateTo.Name = "labelDateTo";
+            this.labelDateTo.Size = new System.Drawing.Size(79, 13);
+            this.labelDateTo.TabIndex = 22;
+            this.labelDateTo.Text = "Дата финиша:";
+            // 
+            // labelDateRange
+            // 
+            this.labelDateRange.AutoSize = true;
+            this.labelDateRange.Location = new System.Drawing.Point(447, 160);
+            this.labelDateRange.Name = "labelDateRange";
+            this.labelDateRange.Size = new System.Drawing.Size(123, 13);
+            this.labelDateRange.TabIndex = 23;
+            this.labelDateRange.Text = "Укажите диапазон дат";
+            // 
+            // btnShowOrdersByDate
+            // 
+            this.btnShowOrdersByDate.Location = new System.Drawing.Point(474, 279);
+            this.btnShowOrdersByDate.Name = "btnShowOrdersByDate";
+            this.btnShowOrdersByDate.Size = new System.Drawing.Size(126, 23);
+            this.btnShowOrdersByDate.TabIndex = 24;
+            this.btnShowOrdersByDate.Text = "Показать заказы";
+            this.btnShowOrdersByDate.UseVisualStyleBackColor = true;
+            this.btnShowOrdersByDate.Click += new System.EventHandler(this.btnShowOrdersByDate_Click);
+            // 
+            // labelBuyers
+            // 
+            this.labelBuyers.AutoSize = true;
+            this.labelBuyers.Location = new System.Drawing.Point(94, 86);
+            this.labelBuyers.Name = "labelBuyers";
+            this.labelBuyers.Size = new System.Drawing.Size(154, 13);
+            this.labelBuyers.TabIndex = 25;
+            this.labelBuyers.Text = "Меню работы с покупателем";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 450);
+            this.ClientSize = new System.Drawing.Size(955, 450);
+            this.Controls.Add(this.labelBuyers);
+            this.Controls.Add(this.btnShowOrdersByDate);
+            this.Controls.Add(this.labelDateRange);
+            this.Controls.Add(this.labelDateTo);
+            this.Controls.Add(this.dateTimePickerTo);
+            this.Controls.Add(this.labelDateFrom);
+            this.Controls.Add(this.dateTimePickerFrom);
             this.Controls.Add(this.labelProductSelect);
             this.Controls.Add(this.textBoxSelectedProduct);
             this.Controls.Add(this.btnCancelChanges);
@@ -260,6 +334,13 @@
         private System.Windows.Forms.Button btnCancelChanges;
         private System.Windows.Forms.TextBox textBoxSelectedProduct;
         private System.Windows.Forms.Label labelProductSelect;
+        private System.Windows.Forms.DateTimePicker dateTimePickerFrom;
+        private System.Windows.Forms.Label labelDateFrom;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTo;
+        private System.Windows.Forms.Label labelDateTo;
+        private System.Windows.Forms.Label labelDateRange;
+        private System.Windows.Forms.Button btnShowOrdersByDate;
+        private System.Windows.Forms.Label labelBuyers;
     }
 }
 

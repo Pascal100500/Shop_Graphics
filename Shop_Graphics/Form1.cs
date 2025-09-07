@@ -23,11 +23,15 @@ namespace Shop_Graphics
         {
             InitializeComponent();
             string connStr = ConfigurationManager.ConnectionStrings["Shop_db"].ConnectionString;
-            conn = new SqlConnection(connStr);
-
-            // Добавим всплывающую подсказку
+            conn = new SqlConnection(connStr);                
             ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(pictureBoxProduct, "Изображение выбранного товара");
+            btnShowOrdersByDate.Enabled = false;
+            btnAdd.Enabled = false;
+            btnDeleteBuyer.Enabled = false;
+            btnEdit.Enabled = false;
+            btnAddProductImage.Enabled = false;
+            btnDeleteImage.Enabled = false;
         }
 
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -42,6 +46,7 @@ namespace Shop_Graphics
             comboBoxActions.Items.Add("Склады");
             comboBoxActions.Items.Add("Заказы");
             comboBoxActions.Items.Add("Категории");
+            comboBoxActions.Items.Add("Вывести заказы в диапазоне дат");
             comboBoxActions.Items.Add("Складские запасы");
             comboBoxActions.Items.Add("Товары по категориям");
             comboBoxActions.Items.Add("Статусы заказов");
@@ -56,6 +61,9 @@ namespace Shop_Graphics
         //Отображение списка всех пользователей
         private void LoadBuyers()
         {
+            btnAdd.Enabled=true;
+            btnDeleteBuyer.Enabled = true;
+            btnEdit.Enabled = true;
             try
             {
                 da = new SqlDataAdapter("SELECT * FROM Buyers", conn);
@@ -76,6 +84,8 @@ namespace Shop_Graphics
         //Отображение списка всех Товаров
         private void LoadProducts()
         {
+            btnAddProductImage.Enabled = true;
+            btnDeleteImage.Enabled = true;
             try
             {
                 da = new SqlDataAdapter("SELECT * FROM Products", conn);
@@ -254,6 +264,7 @@ namespace Shop_Graphics
             //Решил добавить отобжаенеи имени выбранного товара в textBox - так наверняка видно, выбран товар или нет
             string name = dataGridView1.SelectedRows[0].Cells["Name"].Value?.ToString();
             textBoxSelectedProduct.Text = name;
+                        
         }
         //*********************************************************************************
 
@@ -261,6 +272,7 @@ namespace Shop_Graphics
         private void comboBoxActions_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selected = comboBoxActions.SelectedItem?.ToString();
+            btnShowOrdersByDate.Enabled = false;
 
             switch (selected)
             {
@@ -294,14 +306,18 @@ namespace Shop_Graphics
                 case "История заказов":
                     LoadOrderHistory();
                     break;
+                case "Вывести заказы в диапазоне дат":
+                    dataGridView1.DataSource = null;
+                    dataGridView1.Rows.Clear();
+                    btnShowOrdersByDate.Enabled = true;
+                    break;
+                    //case "Выгрузить шаблон Excel":
+                    //    ExportBuyersTemplate(); // Метод выгрузки шаблона
+                    //    break;
 
-                //case "Выгрузить шаблон Excel":
-                //    ExportBuyersTemplate(); // Метод выгрузки шаблона
-                //    break;
-
-                //case "Загрузить шаблон Excel":
-                //    ImportBuyersFromExcel(); // Метод загрузки из Excel
-                //    break;
+                    //case "Загрузить шаблон Excel":
+                    //    ImportBuyersFromExcel(); // Метод загрузки из Excel
+                    //    break;
             }
         }
         //*********************************************************************************
@@ -316,7 +332,6 @@ namespace Shop_Graphics
             AddBuyerForm form = new AddBuyerForm();
             form.ShowDialog();
 
-            // После закрытия формы перезагружаем список покупателей:
             if (comboBoxActions.SelectedItem?.ToString() == "Покупатели")
             {
                 LoadBuyers();
@@ -360,15 +375,12 @@ namespace Shop_Graphics
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Предполагаем, что ID покупателя находится в первом столбце (index 0)
                 int userId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
 
-                // Подтверждение
-                var result = MessageBox.Show("Вы действительно хотите удалить этого покупателя?", "Подтверждение", MessageBoxButtons.YesNo);
+                 var result = MessageBox.Show("Вы действительно хотите удалить этого покупателя?", "Подтверждение", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     DeleteBuyer(userId);
-                    // Обновим таблицу покупателей после удаления
                     LoadBuyers();
                 }
             }
@@ -501,7 +513,7 @@ namespace Shop_Graphics
 
                     object result = cmd.ExecuteScalar();
 
-                    // Отладка: выводим сообщение, получили ли что-нибудь из базы
+                    // Отладка: вывожу сообщение, получили ли что-нибудь из базы. Сейчас все оставлю, хотя и работает корректно
                     if (result == null)
                     {
                         MessageBox.Show("Значение из базы: null");
@@ -512,7 +524,7 @@ namespace Shop_Graphics
                     }
                     else if (result is byte[])
                     {
-                        MessageBox.Show("Изображение получено из базы, начинаем загрузку...");
+                        //MessageBox.Show("Изображение получено из базы, начинаем загрузку...");
 
                         using (MemoryStream ms = new MemoryStream((byte[])result))
                         {
@@ -579,7 +591,52 @@ namespace Shop_Graphics
         //*********************************************************************************
 
 
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             //ОТОБРАЖЕНИЕ ЗАКАЗОВ В ДИАПАЗОНЕ ДАТ
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        private void btnShowOrdersByDate_Click(object sender, EventArgs e)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["Shop_db"].ConnectionString;
 
+            DateTime fromDate = dateTimePickerFrom.Value.Date;
+            DateTime toDate = dateTimePickerTo.Value.Date;
+
+            // Убедимся, что fromDate <= toDate
+            if (fromDate > toDate)
+            {
+                MessageBox.Show("Дата начала не может быть позже даты окончания.");
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT o.order_id, b.FirstName + ' ' + b.LastName AS BuyerName, 
+                       o.order_date, o.TotalAmount, s.status_name, o.delivery_address
+                FROM Orders o
+                JOIN Buyers b ON o.user_id = b.user_id
+                JOIN Order_statuses s ON o.status_id = s.status_id
+                WHERE o.order_date BETWEEN @from AND @to";
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    adapter.SelectCommand.Parameters.AddWithValue("@from", fromDate);
+                    adapter.SelectCommand.Parameters.AddWithValue("@to", toDate);
+
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView1.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при загрузке заказов: " + ex.Message);
+                }
+            }
+        }
+        //*********************************************************************************
 
 
 

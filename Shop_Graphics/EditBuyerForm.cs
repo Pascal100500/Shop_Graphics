@@ -17,8 +17,7 @@ namespace Shop_Graphics
     {
         private int _userId; 
 
-        // Конструктор с параметром
-        public EditBuyerForm(int userId)
+         public EditBuyerForm(int userId)
         {
             InitializeComponent();
             _userId = userId;
@@ -27,42 +26,42 @@ namespace Shop_Graphics
         // Метод загрузки данных покупателя
         private void EditBuyerForm_Load(object sender, EventArgs e)
         {
-            // 1. Проверка логина
+            // Проверка логина
             if (string.IsNullOrWhiteSpace(txtLoginEdit.Text))
             {
                 MessageBox.Show("Пожалуйста, введите логин.");
                 return;
             }
 
-            // 2. Проверка пароля
+            // Проверка пароля
             if (txtPasswordEdit.Text.Length < 8)
             {
                 MessageBox.Show("Пароль должен содержать минимум 6 символов.");
                 return;
             }
 
-            // 3. Имя — только буквы
+            // Имя — только буквы
             if (!Regex.IsMatch(txtFirstNameEdit.Text, @"^[А-Яа-яA-Za-z\-]+$"))
             {
                 MessageBox.Show("Имя должно содержать только буквы.");
                 return;
             }
 
-            // 4. Фамилия — только буквы
+            // Фамилия — только буквы
             if (!Regex.IsMatch(txtLastNameEdit.Text, @"^[А-Яа-яA-Za-z\-]+$"))
             {
                 MessageBox.Show("Фамилия должна содержать только буквы.");
                 return;
             }
 
-            // 5. Email c проверкой
+            // Email c проверкой
             if (!Regex.IsMatch(txtEmailEdit.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Введите корректный Email.");
                 return;
             }
 
-            // 6. Телефон — только цифры
+            // Телефон — только цифры
             if (!Regex.IsMatch(txtPhoneNumberEdit.Text, @"^\d+$"))
             {
                 MessageBox.Show("Телефон должен содержать только цифры.");
@@ -109,7 +108,7 @@ namespace Shop_Graphics
             }
         }
 
-        // Метод сохранения изменений
+        // Сохранения изменений при нажатии на кнопочку
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["Shop_db"].ConnectionString;

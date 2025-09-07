@@ -22,42 +22,42 @@ namespace Shop_Graphics
 
         private void btnAddBuyer_Click(object sender, EventArgs e)
         {
-            // 1. Проверка логина
+            // Проверка логина
             if (string.IsNullOrWhiteSpace(txtLogin.Text))
             {
                 MessageBox.Show("Пожалуйста, введите логин.");
                 return;
             }
 
-            // 2. Проверка пароля
+            // Проверка пароля
             if (txtPassword.Text.Length < 8)
             {
                 MessageBox.Show("Пароль должен содержать минимум 6 символов.");
                 return;
             }
 
-            // 3. Имя — только буквы
+            // Имя — только буквы
             if (!Regex.IsMatch(txtFirstName.Text, @"^[А-Яа-яA-Za-z\-]+$"))
             {
                 MessageBox.Show("Имя должно содержать только буквы.");
                 return;
             }
 
-            // 4. Фамилия — только буквы
+            // Фамилия — только буквы
             if (!Regex.IsMatch(txtLastName.Text, @"^[А-Яа-яA-Za-z\-]+$"))
             {
                 MessageBox.Show("Фамилия должна содержать только буквы.");
                 return;
             }
 
-            // 5. Email c проверкой
+            // Email c проверкой
             if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Введите корректный Email.");
                 return;
             }
 
-            // 6. Телефон — только цифры
+            // Телефон — только цифры
             if (!Regex.IsMatch(txtPhoneNumber.Text, @"^\d+$"))
             {
                 MessageBox.Show("Телефон должен содержать только цифры.");
