@@ -36,7 +36,7 @@ namespace Shop_Graphics
             // Проверка пароля
             if (txtPasswordEdit.Text.Length < 8)
             {
-                MessageBox.Show("Пароль должен содержать минимум 6 символов.");
+                MessageBox.Show("Пароль должен содержать минимум 8 символов.");
                 return;
             }
 

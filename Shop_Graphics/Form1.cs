@@ -272,7 +272,7 @@ namespace Shop_Graphics
         private void comboBoxActions_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selected = comboBoxActions.SelectedItem?.ToString();
-            btnShowOrdersByDate.Enabled = false;
+            //btnShowOrdersByDate.Enabled = false;
 
             switch (selected)
             {
@@ -601,7 +601,7 @@ namespace Shop_Graphics
             DateTime fromDate = dateTimePickerFrom.Value.Date;
             DateTime toDate = dateTimePickerTo.Value.Date;
 
-            // Убедимся, что fromDate <= toDate
+            // Проверка дат
             if (fromDate > toDate)
             {
                 MessageBox.Show("Дата начала не может быть позже даты окончания.");
